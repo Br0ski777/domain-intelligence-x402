@@ -12,7 +12,7 @@ export const API_CONFIG: ApiConfig = {
       price: "$0.005",
       description: "Get comprehensive domain intelligence (WHOIS + DNS + SSL)",
       toolName: "domain_lookup_intelligence",
-      toolDescription: "Use this when you need comprehensive domain information. Returns: WHOIS data (registrar, creation date, expiry, nameservers), DNS records (A, AAAA, MX, TXT, NS, CNAME), SSL certificate details (issuer, valid from/to, days remaining), domain age in days. Do NOT use for website content — use web_scrape_to_markdown instead.",
+      toolDescription: "Use this when you need comprehensive domain information. Returns: WHOIS data (registrar, creation date, expiry, nameservers), DNS records (A, AAAA, MX, TXT, NS, CNAME), SSL certificate details (issuer, valid from/to, days remaining), domain age in days. Do NOT use for website content — use web_scrape_to_markdown instead. Do NOT use for company data — use company_enrich_from_domain. Do NOT use for IP lookup — use ip_lookup_geolocation.",
       inputSchema: {
         type: "object",
         properties: {
