@@ -42,6 +42,60 @@ Do NOT use for company data -- use company_enrich_from_domain instead. Do NOT us
         },
         required: ["domain"],
       },
+      outputSchema: {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Domain looked up"
+            },
+            "whois": {
+              "type": "object",
+              "properties": {
+                "registrar": {
+                  "type": "string"
+                },
+                "createdDate": {
+                  "type": "string"
+                },
+                "expiryDate": {
+                  "type": "string"
+                },
+                "domainAge": {
+                  "type": "number"
+                }
+              }
+            },
+            "dns": {
+              "type": "object",
+              "description": "DNS records (A, MX, NS, TXT)"
+            },
+            "ssl": {
+              "type": "object",
+              "properties": {
+                "valid": {
+                  "type": "boolean"
+                },
+                "issuer": {
+                  "type": "string"
+                },
+                "expiryDate": {
+                  "type": "string"
+                }
+              }
+            },
+            "lookup_time_ms": {
+              "type": "number",
+              "description": "Total lookup duration in ms"
+            }
+          },
+          "required": [
+            "domain",
+            "whois",
+            "dns",
+            "ssl"
+          ]
+        },
     },
   ],
 };
