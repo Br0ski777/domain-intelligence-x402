@@ -2,6 +2,21 @@ import type { Hono } from "hono";
 import { promises as dns } from "dns";
 import * as tls from "tls";
 
+
+// ATXP: requirePayment only fires inside an ATXP context (set by atxpHono middleware).
+// For raw x402 requests, the existing @x402/hono middleware handles the gate.
+// If neither protocol is active (ATXP_CONNECTION unset), tryRequirePayment is a no-op.
+async function tryRequirePayment(price: number): Promise<void> {
+  if (!process.env.ATXP_CONNECTION) return;
+  try {
+    const { requirePayment } = await import("@atxp/server");
+    const BigNumber = (await import("bignumber.js")).default;
+    await requirePayment({ price: BigNumber(price) });
+  } catch (e: any) {
+    if (e?.code === -30402) throw e;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // DNS lookups via Node.js dns/promises
 // ---------------------------------------------------------------------------
@@ -184,6 +199,7 @@ async function lookupSsl(domain: string): Promise<SslInfo> {
 
 export function registerRoutes(app: Hono) {
   app.get("/api/lookup", async (c) => {
+    await tryRequirePayment(0.005);
     const domain = c.req.query("domain");
     if (!domain) return c.json({ error: "Missing required parameter: domain" }, 400);
 
