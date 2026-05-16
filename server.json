@@ -12,7 +12,7 @@
   "remotes": [
     {
       "type": "sse",
-      "url": "https://domain-intelligence-x402-production.up.railway.app/mcp"
+      "url": "https://domain-intelligence.api.klymax402.com/mcp"
     }
   ]
 }
