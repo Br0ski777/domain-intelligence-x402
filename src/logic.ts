@@ -198,9 +198,9 @@ async function lookupSsl(domain: string): Promise<SslInfo> {
 // ---------------------------------------------------------------------------
 
 export function registerRoutes(app: Hono) {
-  app.get("/api/lookup", async (c) => {
+  async function handleLookup(c: any, params: { domain?: string }) {
     await tryRequirePayment(0.005);
-    const domain = c.req.query("domain");
+    const domain = params.domain;
     if (!domain) return c.json({ error: "Missing required parameter: domain" }, 400);
 
     // Basic domain validation
@@ -231,5 +231,18 @@ export function registerRoutes(app: Hono) {
       const msg = err instanceof Error ? err.message : "Lookup failed";
       return c.json({ error: msg, domain: cleanDomain, lookup_time_ms: Date.now() - startTime }, 500);
     }
+  }
+
+  app.get("/api/lookup", async (c) => {
+    return handleLookup(c, { domain: c.req.query("domain") });
+  });
+
+  // POST mirror of the GET route above -- Bazaar (CDP) only reliably indexes
+  // POST payments with valid payloads (~82% conversion vs ~14% for GET-only
+  // resources, confirmed empirically). Same params, same logic, just body
+  // instead of query string.
+  app.post("/api/lookup", async (c) => {
+    const body = await c.req.json().catch(() => ({}) as any);
+    return handleLookup(c, { domain: body.domain });
   });
 }
