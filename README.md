@@ -35,7 +35,8 @@ Any x402-aware client ([`@x402/fetch`](https://www.npmjs.com/package/@x402/fetch
 
 | Tool | Method | Path | Price | Description |
 |---|---|---|---|---|
-| `domain_lookup_intelligence` | GET | `/api/lookup` | $0.005 | Get comprehensive domain intelligence (WHOIS + DNS + SSL) |
+| `domain_lookup_intelligence` | GET | `/api/lookup` | $0.012 | Get comprehensive domain intelligence (WHOIS + DNS + SSL) |
+| `domain_lookup_intelligence` | POST | `/api/lookup` | $0.012 | Get comprehensive domain intelligence (WHOIS + DNS + SSL) (POST variant) |
 
 ### `domain_lookup_intelligence`
 
@@ -57,8 +58,29 @@ Example response:
 
 **Not for**: company data (use `company_enrich_from_domain`), IP geolocation (use `ip_lookup_geolocation`), website content (use `web_scrape_to_markdown`), email deliverability (use `email_audit_deliverability`).
 
+### `domain_lookup_intelligence`
+
+Use this when you need comprehensive domain intelligence -- WHOIS, DNS, and SSL data in a single call. Returns structured JSON with full domain profile. POST variant of domain_lookup_intelligence -- same params passed as JSON body instead of query string.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `domain` | string | yes | Domain to lookup (e.g. example.com) |
+
+Example response:
+
+```json
+{"whois":{"registrar":"Cloudflare","createdDate":"2010-01-15","expiryDate":"2027-01-15","nameservers":["ns1.cloudflare.com"]},"dns":{"a":["104.26.10.1"],"mx":[{"priority":10,"exchange":"mx.example.com"}]},"ssl":{"issuer":"Let's Encrypt","daysRemaining":45},"domainAge":5932}
+```
+
+**When to use**: domain purchases, security audits, phishing investigations, or due diligence on vendors. Essential for checking domain legitimacy, SSL health, and DNS configuration.
+
+**Not for**: company data (use `company_enrich_from_domain`), IP geolocation (use `ip_lookup_geolocation`), website content (use `web_scrape_to_markdown`), email deliverability (use `email_audit_deliverability`).
+
 ## Example agent prompts
 
+- "Comprehensive domain intelligence -- WHOIS, DNS, and SSL data in a single call"
 - "Comprehensive domain intelligence -- WHOIS, DNS, and SSL data in a single call"
 
 ## Payment
