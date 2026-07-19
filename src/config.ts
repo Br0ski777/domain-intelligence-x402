@@ -9,7 +9,7 @@ export const API_CONFIG: ApiConfig = {
     {
       method: "GET",
       path: "/api/lookup",
-      price: "$0.005",
+      price: "$0.012",
       description: "Get comprehensive domain intelligence (WHOIS + DNS + SSL)",
       toolName: "domain_lookup_intelligence",
       toolDescription: `Use this when you need comprehensive domain intelligence -- WHOIS, DNS, and SSL data in a single call. Returns structured JSON with full domain profile.
@@ -100,7 +100,7 @@ Do NOT use for company data -- use company_enrich_from_domain instead. Do NOT us
     {
       method: "POST",
       path: "/api/lookup",
-      price: "$0.005",
+      price: "$0.012",
       description: "Get comprehensive domain intelligence (WHOIS + DNS + SSL) (POST variant)",
       toolName: "domain_lookup_intelligence",
       toolDescription: `Use this when you need comprehensive domain intelligence -- WHOIS, DNS, and SSL data in a single call. Returns structured JSON with full domain profile. POST variant of domain_lookup_intelligence -- same params passed as JSON body instead of query string.
